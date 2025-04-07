@@ -48,9 +48,62 @@ else
   echo -e "${GREEN}Oh My Zsh is installed.${NC}"
 fi
 
-# Check for Nerd Fonts
-echo -e "${YELLOW}Note: Nerd Fonts are recommended for proper rendering of icons.${NC}"
-echo "You can install them from https://www.nerdfonts.com/font-downloads"
+# Check for and install Nerd Fonts
+install_nerd_fonts() {
+  echo -e "${YELLOW}Installing Nerd Fonts for proper icon rendering...${NC}"
+  
+  # Create fonts directory
+  FONT_DIR="$HOME/.local/share/fonts"
+  mkdir -p "$FONT_DIR"
+  
+  # Download JetBrains Mono Nerd Font (popular and works well)
+  FONT_URL="https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/JetBrainsMono/Ligatures/Regular/complete/JetBrains%20Mono%20Regular%20Nerd%20Font%20Complete.ttf"
+  FONT_FILE="JetBrains Mono Regular Nerd Font Complete.ttf"
+  
+  echo "Downloading JetBrains Mono Nerd Font..."
+  if command -v curl &> /dev/null; then
+    curl -fLo "$FONT_DIR/$FONT_FILE" "$FONT_URL"
+  elif command -v wget &> /dev/null; then
+    wget -O "$FONT_DIR/$FONT_FILE" "$FONT_URL"
+  else
+    echo -e "${RED}Neither curl nor wget is installed. Cannot download font.${NC}"
+    return 1
+  fi
+  
+  # Refresh font cache if fc-cache exists
+  if command -v fc-cache &> /dev/null; then
+    echo "Refreshing font cache with fc-cache..."
+    fc-cache -fv
+  else
+    echo -e "${YELLOW}fc-cache not found. Font cache not refreshed.${NC}"
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+      echo "On macOS, fonts should be available after installation without cache refresh."
+    elif [[ "$OSTYPE" == "cygwin" ]] || [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "win32" ]]; then
+      echo "On Windows, you may need to install the font manually."
+    else
+      echo "You may need to restart your session for fonts to be recognized."
+    fi
+  fi
+  
+  echo -e "${GREEN}Nerd Font installed.${NC}"
+  echo -e "${YELLOW}IMPORTANT: You must configure your terminal to use this font!${NC}"
+  echo "- For Windows Terminal: Settings → Profiles → Appearance → Font face → 'JetBrains Mono NF'"
+  echo "- For iTerm2: Preferences → Profiles → Text → Font → 'JetBrains Mono Nerd Font'"
+  echo "- For GNOME Terminal: Preferences → Profile → Custom font → 'JetBrains Mono Nerd Font'"
+  echo "- For VS Code: Settings → Terminal › Integrated: Font Family → 'JetBrains Mono Nerd Font'"
+  
+  return 0
+}
+
+echo -e "${YELLOW}Nerd Fonts are required for proper icon rendering.${NC}"
+read -p "Would you like to install JetBrains Mono Nerd Font? (y/n) " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+  install_nerd_fonts
+else
+  echo -e "${YELLOW}Skipping Nerd Font installation. Icons may not display correctly.${NC}"
+  echo "You can install them manually from https://www.nerdfonts.com/font-downloads"
+fi
 
 if [ $MISSING_SOFTWARE -eq 1 ]; then
   echo -e "${RED}Some required software is missing. Please install the missing software and run the script again.${NC}"
@@ -97,4 +150,30 @@ if [ ! -f "${HOME}/.private-env.sh" ]; then
 fi
 
 echo -e "${GREEN}Dotfiles installed successfully!${NC}"
-echo -e "${YELLOW}Note: You may need to restart your shell or run 'source ~/.zshrc' to apply changes.${NC}"
+
+# Final instructions
+cat << EOL
+
+${YELLOW}=== Next Steps ===${NC}
+
+1. ${GREEN}Configure your terminal to use the Nerd Font${NC}
+   * Windows Terminal: Settings → Profiles → Appearance → Font face → 'JetBrains Mono NF'
+   * iTerm2: Preferences → Profiles → Text → Font → 'JetBrains Mono Nerd Font'
+   * GNOME Terminal: Preferences → Profile → Custom font → 'JetBrains Mono Nerd Font'
+   * VSCode: Settings → Terminal › Integrated: Font Family → 'JetBrains Mono Nerd Font'
+
+2. ${GREEN}Start a new tmux session${NC}
+   * Run: ${YELLOW}tmux${NC}
+   * Install plugins: Press ${YELLOW}Ctrl+Space${NC} then ${YELLOW}I${NC} (capital i)
+   * Wait for plugins to install (you'll see a success message)
+
+3. ${GREEN}Start Neovim${NC}
+   * Run: ${YELLOW}nvim${NC}
+   * Plugins will install automatically on first run
+
+4. ${GREEN}Apply shell changes${NC}
+   * Run: ${YELLOW}source ~/.zshrc${NC}
+   * Or restart your terminal
+
+${YELLOW}Enjoy your new environment!${NC}
+EOL

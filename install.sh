@@ -175,5 +175,16 @@ ${YELLOW}=== Next Steps ===${NC}
    * Run: ${YELLOW}source ~/.zshrc${NC}
    * Or restart your terminal
 
+${YELLOW}=== Troubleshooting ===${NC}
+
+* If Nerd Fonts aren't displaying correctly:
+  Run: ${YELLOW}./install_nerd_font.sh${NC}
+
+* If Neovim isn't working properly:
+  Run: ${YELLOW}./nvim_fix.sh${NC}
+
+* If tmux doesn't look right:
+  Make sure you have installed plugins with ${YELLOW}Ctrl+Space${NC} then ${YELLOW}I${NC}
+
 ${YELLOW}Enjoy your new environment!${NC}
 EOL

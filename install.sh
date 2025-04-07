@@ -181,16 +181,7 @@ ${YELLOW}=== Troubleshooting ===${NC}
   Run: ${YELLOW}./install_nerd_font.sh${NC}
 
 * If Neovim isn't working properly:
-  Run: ${YELLOW}./nvim_fix.sh${NC}
-  
-* If Neovim still won't start or isn't found:
-  Run: ${YELLOW}./install_nvim_simple.sh${NC} (installs Neovim via package manager and creates a wrapper script)
-  
-* If the AppImage version doesn't work:
-  Run: ${YELLOW}./install_nvim_appimage.sh${NC} (downloads and installs the latest AppImage version)
-  
-* For a comprehensive Neovim installer that tries multiple methods:
-  Run: ${YELLOW}./super_nvim_install.sh${NC} (recommended for most users)
+  Run: ${YELLOW}./fix_nvim_once_and_for_all.sh${NC} (completely resets and reinstalls Neovim)
   
 * If all else fails and you want to use Vim instead:
   Run: ${YELLOW}./use_vim_instead.sh${NC} (uses Vim instead of Neovim as a simple fallback)

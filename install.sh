@@ -184,6 +184,9 @@ ${YELLOW}=== Troubleshooting ===${NC}
   Run: ${YELLOW}./nvim_fix.sh${NC}
   
 * If Neovim still won't start or isn't found:
+  Run: ${YELLOW}./install_nvim_simple.sh${NC} (installs Neovim via package manager and creates a wrapper script)
+  
+* If the AppImage version doesn't work:
   Run: ${YELLOW}./install_nvim_appimage.sh${NC} (downloads and installs the latest AppImage version)
 
 * If tmux doesn't look right:

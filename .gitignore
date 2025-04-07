@@ -1,0 +1,22 @@
+# Ignore plugin directories
+nvim/plugin/
+nvim/lazy-lock.json
+
+# Ignore local files
+.DS_Store
+*.swp
+*.swo
+*~
+
+# Ignore logs
+*.log
+
+# Ignore compiled zsh files
+*.zwc
+*.zwc.old
+
+# Ignore sensitive information
+**/private-env.sh
+**/.env
+**/.env.local
+# Add specific files with sensitive info here

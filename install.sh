@@ -189,7 +189,10 @@ ${YELLOW}=== Troubleshooting ===${NC}
 * If the AppImage version doesn't work:
   Run: ${YELLOW}./install_nvim_appimage.sh${NC} (downloads and installs the latest AppImage version)
   
-* If Neovim installation is causing strange output or errors:
+* For a comprehensive Neovim installer that tries multiple methods:
+  Run: ${YELLOW}./super_nvim_install.sh${NC} (recommended for most users)
+  
+* If all else fails and you want to use Vim instead:
   Run: ${YELLOW}./use_vim_instead.sh${NC} (uses Vim instead of Neovim as a simple fallback)
 
 * If tmux doesn't look right:

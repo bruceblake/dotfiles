@@ -1,0 +1,3 @@
+# Ignore plugin files but track the tpm directory
+plugins/*
+!plugins/tpm/

@@ -14,10 +14,18 @@ mkdir -p ${HOME}/.oh-my-zsh
 
 # Create symlinks for shell configs
 ln -sf $(pwd)/zsh/.zshrc ${HOME}/.zshrc
-ln -sf $(pwd)/tmux/.tmux.conf ${HOME}/.tmux.conf
 ln -sf $(pwd)/git/.gitconfig ${HOME}/.gitconfig
 ln -sf $(pwd)/bash/.bashrc ${HOME}/.bashrc
 ln -sf $(pwd)/bash/.bash_profile ${HOME}/.bash_profile
+
+# Setup tmux with TPM
+mkdir -p ${HOME}/.tmux/plugins
+mkdir -p ${HOME}/.config/tmux
+
+# Copy tmux configuration and TPM
+cp -r $(pwd)/tmux/plugins/tpm ${HOME}/.tmux/plugins/
+ln -sf $(pwd)/tmux/.tmux.conf ${HOME}/.config/tmux/tmux.conf
+ln -sf $(pwd)/tmux/.tmux.conf ${HOME}/.tmux.conf
 
 # Handle Neovim config
 if [ -d "${HOME}/.config/nvim" ]; then

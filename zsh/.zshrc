@@ -4,13 +4,14 @@
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
-export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
 
 export EDITOR="nvim"
 
 
-export NVIM_LISTEN_ADDRESS=/tmp/nvim
+export ANTHROPIC_API_KEY=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
+export OPENAI_API_KEY=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
 
 export DISPLAY=$(grep nameserver /etc/resolv.conf | awk '{print $2}'):0.0
 
@@ -24,6 +25,8 @@ ZSH_THEME="gozilla"
 # Source private environment variables if the file exists
 if [ -f "$HOME/.private-env.sh" ]; then
   source "$HOME/.private-env.sh"
+elif [ -f "$HOME/.config/zsh/.private-env.sh" ]; then
+  source "$HOME/.config/zsh/.private-env.sh"
 fi
 
 

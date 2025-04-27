@@ -51,7 +51,3 @@ require("lazy").setup({
     },
   },
 })
-
--- API keys should be set in your environment, not in version control
-vim.env.ANTHROPIC_API_KEY =
-  "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"

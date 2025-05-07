@@ -14,6 +14,8 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+vim.env.ANTHROPIC_API_KEY="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"
+
 require("lazy").setup({
   spec = {
     -- add LazyVim and import its plugins
@@ -51,3 +53,4 @@ require("lazy").setup({
     },
   },
 })
+

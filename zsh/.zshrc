@@ -1,16 +1,17 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
-# Path to your Oh My Zsh installation.
+  # Path to your Oh My Zsh installation.
+
+
 export ZSH="$HOME/.oh-my-zsh"
 
 export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
-
-
+ 
 export EDITOR="nvim"
-
-
+ 
 export ANTHROPIC_API_KEY=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
+
 export OPENAI_API_KEY=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
 
 export DISPLAY=$(grep nameserver /etc/resolv.conf | awk '{print $2}'):0.0
@@ -90,9 +91,12 @@ fi
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 
-source $ZSH/oh-my-zsh.sh
+fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
+autoload -U compinit && compinit
+
+source "$ZSH/oh-my-zsh.sh"
 
 # User configuration
 
@@ -122,3 +126,9 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# Generated for envman. Do not edit.
+[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
+
+eval "$(zoxide init zsh)"
+alias claude="/home/proxyie/.claude/local/claude"

@@ -1,3 +1,0 @@
-# Ignore plugin files except tpm
-plugins/*/
-!plugins/tpm/

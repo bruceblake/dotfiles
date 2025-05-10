@@ -10,9 +10,9 @@ export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
  
 export EDITOR="nvim"
  
-export ANTHROPIC_API_KEY=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
+export ANTHROPIC_API_KEY="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"
 
-export OPENAI_API_KEY=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
+export OPENAI_API_KEY="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"
 
 export DISPLAY=$(grep nameserver /etc/resolv.conf | awk '{print $2}'):0.0
 
@@ -91,10 +91,8 @@ fi
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(git zsh-syntax-highlighting)
 
-fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
-autoload -U compinit && compinit
 
 source "$ZSH/oh-my-zsh.sh"
 
@@ -131,4 +129,4 @@ source "$ZSH/oh-my-zsh.sh"
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 
 eval "$(zoxide init zsh)"
-alias claude="/home/proxyie/.claude/local/claude"
+export GITHUB_TOKEN="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"

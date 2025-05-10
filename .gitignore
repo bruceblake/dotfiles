@@ -20,3 +20,4 @@ nvim/lazy-lock.json
 **/.env
 **/.env.local
 # Add specific files with sensitive info here
+**/.claude/settings.local.json

@@ -1,58 +1,108 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -e
 
-# Cleanup script to remove unnecessary files
+# Cleanup script to remove backup files and restore pristine state
 
 # Colors for output
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 RED='\033[0;31m'
+BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-echo -e "${YELLOW}===== CLEANING UP REPOSITORY =====${NC}"
-echo "This script will remove all files except those needed for tmux, nvim, and zsh."
+echo -e "${BLUE}===== DOTFILES CLEANUP =====${NC}"
+echo "This script will clean up backup files and restore the repository to a pristine state."
 
 # Ask for confirmation
-read -p "This is a destructive operation. Continue? (y/n) " -n 1 -r
+read -p "This may remove backup files. Continue? (y/N) " -n 1 -r
 echo
 if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-    echo "Operation cancelled."
+    echo -e "${YELLOW}Operation cancelled.${NC}"
     exit 0
 fi
 
-# Files to keep
-KEEP_FILES=(
-  "nvim"
-  "tmux"
-  "zsh"
+# Files and directories that are essential for the repository
+ESSENTIAL_FILES=(
+  "config"
   "README.md"
-  "simple_install.sh"
+  "bootstrap.sh"
+  "install.sh"
+  "update.sh"
+  "install_windows_fonts.sh"
+  "cleanup.sh"
   ".git"
   ".gitignore"
   ".gitmodules"
 )
 
-# Remove files that aren't in the keep list
-echo -e "\n${YELLOW}Removing unnecessary files...${NC}"
+# Backup files that may have been created
+BACKUP_PATTERNS=(
+  "*.backup.*"
+  "*.bak"
+  "*.old"
+  "*~"
+  "*.swp"
+  ".DS_Store"
+  "Thumbs.db"
+)
+
+# Clean up backup files
+echo -e "\n${YELLOW}Cleaning up backup files...${NC}"
+for pattern in "${BACKUP_PATTERNS[@]}"; do
+    echo "Finding and removing $pattern..."
+    find . -name "$pattern" -type f -delete 2>/dev/null || true
+done
+
+# Remove non-essential files in the root directory
+echo -e "\n${YELLOW}Checking for non-essential files...${NC}"
 for file in *; do
-    keep=false
-    for keep_file in "${KEEP_FILES[@]}"; do
-        if [ "$file" == "$keep_file" ]; then
-            keep=true
-            break
+    if [ -e "$file" ]; then  # Check if file exists (handles weird filenames)
+        keep=false
+        for essential_file in "${ESSENTIAL_FILES[@]}"; do
+            if [ "$file" == "$essential_file" ]; then
+                keep=true
+                break
+            fi
+        done
+        
+        if [ "$keep" == "false" ]; then
+            echo "Found non-essential file: $file"
+            read -p "Remove this file? (y/N) " -n 1 -r
+            echo
+            if [[ $REPLY =~ ^[Yy]$ ]]; then
+                echo "Removing $file..."
+                rm -rf "$file"
+            else
+                echo "Keeping $file..."
+            fi
         fi
-    done
-    
-    if [ "$keep" == "false" ] && [ "$file" != "cleanup.sh" ]; then
-        echo "Removing $file..."
-        rm -rf "$file"
     fi
 done
 
-# Remove Git-related directories (bash and git)
-echo "Removing bash and git directories..."
-rm -rf bash
-rm -rf git
+# Clean up temporary directories that might have been created
+echo -e "\n${YELLOW}Cleaning up temporary directories...${NC}"
+TEMP_DIRS=("tmp" "temp" ".tmp" ".temp")
+for dir in "${TEMP_DIRS[@]}"; do
+    if [ -d "$dir" ]; then
+        echo "Removing temporary directory: $dir"
+        rm -rf "$dir"
+    fi
+done
 
-echo -e "\n${GREEN}Cleanup complete!${NC}"
-echo "The repository now contains only essential files for tmux, nvim, and zsh."
-echo "You should commit these changes to your repository."
+# Clean up zsh .zcompdump files
+if [ -d "config/zsh" ]; then
+    echo -e "\n${YELLOW}Cleaning up zsh cache files...${NC}"
+    find config/zsh -name ".zcompdump*" -type f -delete 2>/dev/null || true
+fi
+
+# Clean local git repo (optionally)
+echo -e "\n${YELLOW}Git repository maintenance${NC}"
+read -p "Run git garbage collection to optimize repository? (y/N) " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    echo "Running git garbage collection..."
+    git gc --aggressive --prune=now
+fi
+
+echo -e "\n${GREEN}✅ Cleanup complete!${NC}"
+echo "The repository has been cleaned up and is ready for use."
